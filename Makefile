@@ -18,12 +18,9 @@ run:
 	streamlit run app.py
 
 ingest:
-	@echo "🏠 Local Ingestion Başlatılıyor..."
-	$(PYTHON) -c "from src.ingestion import ingest_data; ingest_data(force_recreate=True, provider='local')"
+	@echo "🌱 Veri Yükleme (Ingestion) Başlatılıyor..."
+	$(PYTHON) -c "from src.ingestion import ingest_data; ingest_data(force_recreate=True)"
 
-ingest-openai:
-	@echo "🌍 OpenAI Ingestion Başlatılıyor..."
-	$(PYTHON) -c "from src.ingestion import ingest_data; ingest_data(force_recreate=True, provider='openai')"
 
 clean:
 	rm -rf __pycache__ src/__pycache__

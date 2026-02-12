@@ -8,39 +8,23 @@ from src import config
 st.set_page_config(page_title="Legal-RAG v2", page_icon="⚖️", layout="centered")
 st.title("⚖️ Kat Mülkiyeti Kanunu Asistanı")
 
-# --- 1. Ayarlar (Dinamik Sidebar) ---
-st.sidebar.header("⚙️ Ayarlar")
-
-# Config'den provider listesini çek ({"local": "Local...", "openai": "OpenAI..."})
-provider_options = {k: v["label"] for k, v in config.EMBEDDING_PROVIDERS.items()}
-selected_label = st.sidebar.selectbox(
-    "Embedding Modeli:",
-    options=list(provider_options.values())
-)
-
-# Label'dan Key'i bul (Ters işlem)
-provider_code = next(k for k, v in provider_options.items() if v == selected_label)
-
-# Provider değişirse sistemi resetle
-if "current_provider" in st.session_state and st.session_state.current_provider != provider_code:
-    st.session_state.pop("rag_system", None)
-st.session_state.current_provider = provider_code
-
-# --- 2. Başlatma ---
+# --- 1. SİSTEM BAŞLATMA ---
 if "rag_system" not in st.session_state:
-    with st.spinner(f"Sistem hazırlanıyor... ({selected_label})"):
+    with st.spinner("Sistem hazırlanıyor..."):
         try:
-            # Sadece local ise otomatik ingest dene, cloud ise veri var varsay
-            # (veya her durumda ingest_data check ettiği için çağırabiliriz)
-            ingest_data(force_recreate=False, provider=provider_code)
+            # Veri hazırlığını tetikle (Ingest) - Sadece eksikse çalışır
+            ingest_data(force_recreate=False)
             
-            st.session_state.rag_system = LegalRAG(provider=provider_code)
+            # RAG motorunu başlat
+            st.session_state.rag_system = LegalRAG()
+            
             st.success("Sistem Hazır!")
             time.sleep(0.5)
-            st.rerun()
+            st.rerun() # Arayüzü yenile
         except Exception as e:
             st.error(f"Sistem başlatılamadı: {e}")
             st.stop()
+
 
 # --- 3. Sohbet ---
 if "messages" not in st.session_state:

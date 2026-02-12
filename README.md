@@ -7,8 +7,8 @@ RAG (Retrieval-Augmented Generation) mimarisini kullanarak kullanıcının sorul
 
 Bu versiyon, önceki modele göre daha yalın ve güçlüdür:
 1.  **Framework-Free**: LangChain karmaşası olmadan, saf Python (Native SDKs) ile yazıldı.
-2.  **Cloud Native**: Vektör veritabanı **ChromaDB Cloud** üzerinde tutulur (İnternet bağlantısı gerektirir).
-3.  **Çift Motor**: İsterseniz **Yerel Embedding** (Ücretsiz), isterseniz **OpenAI Embedding** (Ücretli) kullanabilirsiniz.
+2.  **Cloud Native**: Vektör veritabanı **ChromaDB Cloud**, Embedding ise **OpenAI** tarafından sağlanır.
+3.  **Hafif (Lightweight)**: Arkadaşlarınızın bilgisayarını yormaz, ağır modeller indirmez.
 4.  **Model**: OpenAI `gpt-4o-mini` modeli ile hızlı ve doğru cevaplar üretir.
 
 ---

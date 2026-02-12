@@ -35,18 +35,19 @@ def chunk_text(text):
     print(f"Bilgi: Metin {len(chunks)} parçaya bölündü.")
     return chunks
 
-def ingest_data(force_recreate=False, provider="local"):
+def ingest_data(force_recreate=False):
     """
-    ETL Süreci (Extract, Transform, Load):
-    1. Extract: PDF'den metni oku.
-    2. Transform: Metni parçala ve Vektöre çevir (Embedding).
-    3. Load: Vektörleri ChromaDB veritabanına yükle.
+    ETL Süreci:
+    1. PDF Oku
+    2. Parçala
+    3. OpenAI Embedding ile Cloud Chroma'ya Yükle
     """
     client = utils.get_chroma_client()
-    
-    # Seçilen stratejiye göre ayarları al
-    embedding_fn, collection_name = utils.get_embedding_provider(provider)
-    print(f"İşlem Başlıyor: {provider.upper()} modu | Hedef Tablo: {collection_name}")
+    embedding_fn = utils.get_embedding_function()
+    collection_name = config.COLLECTION_NAME
+
+    print(f"İşlem Başlıyor: OpenAI Cloud Modu | Hedef Tablo: {collection_name}")
+
 
     # Temiz başlangıç isteniyorsa eski tabloyu sil
     if force_recreate:
@@ -81,5 +82,6 @@ def ingest_data(force_recreate=False, provider="local"):
 
 if __name__ == "__main__":
     # Test amaçlı doğrudan çalıştırma
-    ingest_data(force_recreate=True, provider="local")
+    ingest_data(force_recreate=True)
+
 

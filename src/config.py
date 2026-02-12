@@ -22,22 +22,13 @@ CHUNK_SIZE = 2000
 CHUNK_OVERLAP = 400
 TOP_K = 5
 
-# --- EMBEDDING STRATEJİLERİ (Genişletilebilir Yapı) ---
-# Yeni model eklemek için buraya bir key eklemeniz yeterli.
-EMBEDDING_PROVIDERS = {
-    "local": {
-        "label": "Local Multilingual",
-        "type": "sentence_transformer",
-        "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
-        "collection_name": "kat_mulkiyeti_v2"
-    },
-    "openai": {
-        "label": "OpenAI Cloud",
-        "type": "openai",
-        "model_name": "text-embedding-3-small",
-        "collection_name": "kat_mulkiyeti_openai"
-    }
-}
+# ==============================================================================
+# EMBEDDING (VEKTÖRLEŞTİRME) AYARLARI
+# ==============================================================================
+# Sadece OpenAI Embedding kullanılıyor (Cloud Native)
+EMBEDDING_MODEL_NAME = "text-embedding-3-small"
+COLLECTION_NAME = "kat_mulkiyeti_v2"
+
 
 # ==============================================================================
 # DOSYA YOLLARI (PATHS)

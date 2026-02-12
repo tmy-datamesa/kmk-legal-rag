@@ -3,25 +3,24 @@ from src import config, utils
 
 class LegalRAG:
     """
-    RAG (Retrieval-Augmented Generation) Motoru.
-    Görevi: Kullanıcı sorusunu alıp, veritabanından ilgili bilgiyi bulmak ve LLM'e cevaplatmak.
+    RAG Motoru (OpenAI + ChromaDB Cloud)
     """
-    def __init__(self, provider="local"):
+    def __init__(self):
         """
         Sistemi başlatır.
-        provider: 'local' (HuggingFace) veya 'openai' (Cloud Embedding)
         """
         self.openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
         self.chroma_client = utils.get_chroma_client()
         
-        # Hangi embedding modelini ve tabloyu kullanacağımızı belirle
-        self.embedding_fn, self.collection_name = utils.get_embedding_provider(provider)
+        self.embedding_fn = utils.get_embedding_function()
+        self.collection_name = config.COLLECTION_NAME
         
         print(f"Bilgi: RAG sistemi '{self.collection_name}' tablosuna bağlandı.")
         self.collection = self.chroma_client.get_collection(
             name=self.collection_name,
             embedding_function=self.embedding_fn
         )
+
     
     def retrieve(self, query):
         """
@@ -36,7 +35,7 @@ class LegalRAG:
 
     def generate_answer(self, query):
         """
-        Adım 2 & 3: Augmentation & Generation (Zenginleştirme ve Üretme)
+        Adım 2 & 3: Augmentation & Generation 
         Bulunan metinleri LLM'e verip cevabı üretir.
         """
         # 1. Dokümanları bul
@@ -48,7 +47,7 @@ class LegalRAG:
         # 2. Bağlamı (Context) birleştir
         context_text = "\n\n---\n\n".join(relevant_docs)
         
-        # 3. LLM'e sor (Prompt Mühendisliği)
+        # 3. LLM'e sor 
         response = self.openai_client.chat.completions.create(
             model=config.LLM_MODEL,
             messages=[
