@@ -1,9 +1,9 @@
-# ⚖️ Legal-RAG v2
+# ⚖️ Legal-RAG v1
 
 Bu proje, **Kat Mülkiyeti Kanunu** üzerine uzmanlaşmış yapay zeka destekli bir hukuk asistanıdır.
 RAG (Retrieval-Augmented Generation) mimarisini kullanarak kullanıcının sorularını resmi kanun metinlerinden cevaplar.
 
-## 🚀 Proje Mimarisi (v2)
+## 🚀 Proje Mimarisi (v1)
 
 Bu versiyon, önceki modele göre daha yalın ve güçlüdür:
 1.  **Framework-Free**: LangChain karmaşası olmadan, saf Python (Native SDKs) ile yazıldı.
